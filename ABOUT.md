@@ -8,3 +8,8 @@ Proximas Implementaciones
 - Solucion a problemas de falta de luz
 - Mejoras en el servidor web
 - Implementacion de un display que genere ciertas imagenes dependiendo el estado de la maceta
+
+Funcionamiento gracias a:
+- Microcontrolador ESP-32
+- Sensor de Humedad de suelo
+- Bomba de Agua 5V
