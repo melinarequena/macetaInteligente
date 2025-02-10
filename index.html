@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maceta Inteligente</title>
+
+    <!-- Estilos CSS básicos -->
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #e0f7e9; /* Fondo verde clarito */
+            color: #333; 
+            margin: 0; 
+            padding: 0; 
+        }
+        .container { 
+            text-align: center; 
+            padding: 20px; 
+            background-color: #ffffff; /* Fondo blanco para el contenido */
+            border-radius: 10px; /* Bordes redondeados para el contenedor */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil alrededor */
+            max-width: 600px; 
+            margin: 20px auto; /* Centrado de la página */
+        }
+        h1 { 
+            color: #4CAF50; 
+            margin-bottom: 20px; 
+        }
+        p { 
+            font-size: 18px; 
+            margin: 10px 0; 
+        }
+        footer { 
+            text-align: center; 
+            font-size: 12px; 
+            color: #888; 
+            margin-top: 20px; 
+        }
+        footer p { 
+            margin: 5px; 
+        }
+        img { 
+            max-width: 200px; 
+            margin-top: 20px; 
+            border-radius: 10px; /* Borde redondeado para la imagen */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra alrededor de la imagen */
+        }
+        /* Estilo adicional para mejorar la experiencia visual */
+        .highlight { 
+            color: #4CAF50; 
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Monitor de Maceta 🌱</h1>
+        <p>Humedad: <span id="humedad">Cargando...</span>%</p>
+        <p>Luz: <span id="luz">Cargando...</span> lx</p>
+        <img src="https://img.freepik.com/vector-premium/planta-feliz-dando-pulgar-simple-fondo-blanco-ilustracion-vectorial-kawaii_969863-300469.jpg" alt="Imagen de Planta">
+    </div>
+    
+    <footer>
+        <p>Proyecto Final Electrónica - Diciembre 2025</p>
+        <p>Sofía Ravenna y Melina Requena</p>
+    </footer>
+
+    <script>
+        function actualizarDatos() {
+            fetch('/humedad')
+                .then(res => res.text())
+                .then(data => document.getElementById('humedad').innerText = data)
+                .catch(err => document.getElementById('humedad').innerText = 'Error al obtener datos');
+            
+            fetch('/luz')
+                .then(res => res.text())
+                .then(data => document.getElementById('luz').innerText = data)
+                .catch(err => document.getElementById('luz').innerText = 'Error al obtener datos');
+        }
+
+        setInterval(actualizarDatos, 2000); // Actualiza los datos cada 2 segundos
+        actualizarDatos();  // Llama inmediatamente al cargar la página
+    </script>
+</body>
+</html>
