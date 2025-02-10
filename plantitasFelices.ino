@@ -1,3 +1,5 @@
+#include <Wire.h>
+#include <BH1750.h>
 #include <WiFi.h>
 #include <WebServer.h>
 
@@ -9,88 +11,120 @@ const char* password = "12345678";
 WebServer server(80);
 
 // Pines
-int sensorH = 34;
-int relay = 17;
+int sensorH = 34;  // Sensor de humedad
+int relayBomba = 17;  // Relé de la bomba de agua
+int relayLuz = 16;  // Relé de la lámpara
+
+BH1750 lightMeter;
+const int UMBRAL_LUZ = 50; // Umbral para encender la lámpara (lux)
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(sensorH, INPUT);       // Configurar el pin del sensor como entrada
-  pinMode(relay, OUTPUT);        // Configurar el pin del relé como salida
-  digitalWrite(relay, LOW);      // Inicializar el relé en estado apagado (bajo)
+    Serial.begin(115200);
+    Wire.begin(21, 22);  // SDA = GPIO21, SCL = GPIO22
+    lightMeter.begin();
+    Serial.println("BH1750 conectado.");
+    
+    pinMode(sensorH, INPUT);
+    pinMode(relayBomba, OUTPUT);
+    pinMode(relayLuz, OUTPUT);
+    digitalWrite(relayBomba, LOW);
+    digitalWrite(relayLuz, LOW);
 
-  // Conectar a la red WiFi
-  WiFi.begin(ssid, password);
-  Serial.println("Conectando a WiFi...");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(3000);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.println("Conectado a WiFi");
-  Serial.println("IP Address: ");
-  Serial.println(WiFi.localIP());
+    // Conectar a WiFi
+    WiFi.begin(ssid, password);
+    Serial.println("Conectando a WiFi...");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(3000);
+        Serial.print(".");
+    }
+    Serial.println("\nConectado a WiFi");
+    Serial.println("IP Address: ");
+    Serial.println(WiFi.localIP());
 
-  // Configurar rutas del servidor
-  server.on("/", handleRoot);
-  server.on("/humedad", handleHumedad);
-  server.begin();
-  Serial.println("Servidor HTTP iniciado");
+    // Configurar rutas del servidor
+    server.on("/", handleRoot);
+    server.on("/humedad", handleHumedad);
+    server.on("/luz", handleLuz);
+    server.begin();
+    Serial.println("Servidor HTTP iniciado");
 }
 
 void loop() {
-  // Manejar solicitudes del cliente
-  server.handleClient();
+    server.handleClient();
 
-  // Leer el valor de humedad
-  int humedad = analogRead(sensorH);
+    int humedad = analogRead(sensorH);
+    if (humedad > 3000) {
+        digitalWrite(relayBomba, HIGH);
+        delay(3000);
+        digitalWrite(relayBomba, LOW);
+    }
 
-  // Controlar la bomba sin usar delay
-  if (humedad > 3000) {
-    digitalWrite(relay, HIGH);
-    delay(3000);
-    digitalWrite(relay, LOW);
-  }
+    float lux = lightMeter.readLightLevel();
+    Serial.print("Luz: ");
+    Serial.print(lux);
+    Serial.println(" lx");
+    
+    if (lux < UMBRAL_LUZ) {
+        digitalWrite(relayLuz, HIGH);
+    } else {
+        digitalWrite(relayLuz, LOW);
+    }
+    
+    delay(1000);
 }
 
-// Manejar la ruta raíz
 void handleRoot() {
-  String message = "<html><head>";
-  message += "<title>Humedad de la Planta</title>";
+  String message = "<html><head><title>Maceta Inteligente</title>";
+  
+  // Estilos CSS básicos
   message += "<style>";
-  message += "body { font-family: Arial, sans-serif; background-color: #ccffcc; margin: 0; padding: 0; }";
-  message += ".container { max-width: 600px; margin: 50px auto; padding: 20px; border: 1px solid #00796b; border-radius: 10px; background-color: #ffffff; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; }";
-  message += "h1 { color: #004d40; }";
-  message += ".data { font-size: 1.5em; margin: 10px 0; color: #00796b; }";
-  message += ".footer { margin-top: 20px; font-size: 0.8em; color: #004d40; text-align: center; }";
-  message += "img { max-width: 100%; height: auto; border-radius: 10px; margin-top: 20px; width: 200px; height: 200px; }"; // Ajusta la imagen a un tamaño específico
+  message += "body { font-family: Arial, sans-serif; background-color: #e0f7e9; color: #333; margin: 0; padding: 0; }";
+  message += ".container { text-align: center; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 20px auto; }";
+  message += "h1 { color: #4CAF50; margin-bottom: 20px; }";
+  message += "p { font-size: 18px; margin: 10px 0; }";
+  message += "footer { text-align: center; font-size: 12px; color: #888; margin-top: 20px; }";
+  message += "footer p { margin: 5px; }";
+  message += "img { max-width: 200px; margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }";
   message += "</style>";
+
+  // Cuerpo de la página HTML
   message += "</head><body>";
   message += "<div class='container'>";
-  message += "<h1>Monitor de Humedad de la Planta 🌱</h1>";
-  message += "<p class='data'>Humedad Actual: <span id='humedad'>Cargando...</span>%</p>";
-  message += "<img src='https://img.freepik.com/vector-premium/planta-feliz-dando-pulgar-simple-fondo-blanco-ilustracion-vectorial-kawaii_969863-300469.jpg' alt='Imagen de Planta'>"; // URL de la imagen
-  message += "<script>";
-  message += "function obtenerHumedad() {";
-  message += "  var xhr = new XMLHttpRequest();";
-  message += "  xhr.onreadystatechange = function() {";
-  message += "    if (xhr.readyState == 4 && xhr.status == 200) {";
-  message += "      document.getElementById('humedad').innerHTML = xhr.responseText;";
-  message += "    }";
-  message += "  };";
-  message += "  xhr.open('GET', '/humedad', true);";
-  message += "  xhr.send();";
-  message += "}";
-  message += "setInterval(obtenerHumedad, 2000);"; // Actualizar cada 2 segundos
-  message += "</script>";
-  message += "<div class='footer'>Proyecto Final Electronica I - Sofia Ravenna y Melina Requena</div>";
+  message += "<h1>Monitor de Maceta 🌱</h1>";
+  message += "<p>Humedad: <span id='humedad'>Cargando...</span>%</p>";
+  message += "<p>Luz: <span id='luz'>Cargando...</span> lx</p>";
+  message += "<img src='https://img.freepik.com/vector-premium/planta-feliz-dando-pulgar-simple-fondo-blanco-ilustracion-vectorial-kawaii_969863-300469.jpg' alt='Imagen de Planta'>";
   message += "</div>";
+  
+  message += "<footer>";
+  message += "<p>Proyecto Final Electrónica - Diciembre 2025</p>";
+  message += "<p>Sofía Ravenna y Melina Requena</p>";
+  message += "</footer>";
+
+  // Script para actualizar los datos cada 2 segundos
+  message += "<script>";
+  message += "function actualizarDatos() {";
+  message += "fetch('/humedad').then(res => res.text()).then(data => document.getElementById('humedad').innerText = data);";
+  message += "fetch('/luz').then(res => res.text()).then(data => document.getElementById('luz').innerText = data);";
+  message += "}";
+  message += "setInterval(actualizarDatos, 2000);";
+  message += "actualizarDatos();";
+  message += "</script>";
+  
   message += "</body></html>";
+
+  // Enviar la respuesta con el HTML
   server.send(200, "text/html", message);
 }
 
-// Manejar la ruta /humedad
+
 void handleHumedad() {
-  int humedad = analogRead(sensorH);
-  float humedadPorcentaje = ((4095.0 - humedad) / (4095.0 - 1021.0)) * 100.0;
-  server.send(200, "text/plain", String(humedadPorcentaje, 2));
+    int humedad = analogRead(sensorH);
+    float humedadPorcentaje = ((4095.0 - humedad) / (4095.0 - 1021.0)) * 100.0;
+    server.send(200, "text/plain", String(humedadPorcentaje, 2));
+}
+
+void handleLuz() {
+    float lux = lightMeter.readLightLevel();
+    server.send(200, "text/plain", String(lux, 2));
 }
