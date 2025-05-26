@@ -73,49 +73,50 @@ void loop() {
     delay(1000);
 }
 
-void handleRoot() {
-  String message = "<html><head><title>Maceta Inteligente</title>";
+// NEED TO FIX
+//void handleRoot() {
+//   String message = "<html><head><title>Maceta Inteligente</title>";
   
-  // Estilos CSS básicos
-  message += "<style>";
-  message += "body { font-family: Arial, sans-serif; background-color: #e0f7e9; color: #333; margin: 0; padding: 0; }";
-  message += ".container { text-align: center; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 20px auto; }";
-  message += "h1 { color: #4CAF50; margin-bottom: 20px; }";
-  message += "p { font-size: 18px; margin: 10px 0; }";
-  message += "footer { text-align: center; font-size: 12px; color: #888; margin-top: 20px; }";
-  message += "footer p { margin: 5px; }";
-  message += "img { max-width: 200px; margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }";
-  message += "</style>";
+//   // Estilos CSS básicos
+//   message += "<style>";
+//   message += "body { font-family: Arial, sans-serif; background-color: #e0f7e9; color: #333; margin: 0; padding: 0; }";
+//   message += ".container { text-align: center; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 20px auto; }";
+//   message += "h1 { color: #4CAF50; margin-bottom: 20px; }";
+//   message += "p { font-size: 18px; margin: 10px 0; }";
+//   message += "footer { text-align: center; font-size: 12px; color: #888; margin-top: 20px; }";
+//   message += "footer p { margin: 5px; }";
+//   message += "img { max-width: 200px; margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }";
+//   message += "</style>";
 
-  // Cuerpo de la página HTML
-  message += "</head><body>";
-  message += "<div class='container'>";
-  message += "<h1>Monitor de Maceta 🌱</h1>";
-  message += "<p>Humedad: <span id='humedad'>Cargando...</span>%</p>";
-  message += "<p>Luz: <span id='luz'>Cargando...</span> lx</p>";
-  message += "<img src='https://img.freepik.com/vector-premium/planta-feliz-dando-pulgar-simple-fondo-blanco-ilustracion-vectorial-kawaii_969863-300469.jpg' alt='Imagen de Planta'>";
-  message += "</div>";
+//   // Cuerpo de la página HTML
+//   message += "</head><body>";
+//   message += "<div class='container'>";
+//   message += "<h1>Monitor de Maceta 🌱</h1>";
+//   message += "<p>Humedad: <span id='humedad'>Cargando...</span>%</p>";
+//   message += "<p>Luz: <span id='luz'>Cargando...</span> lx</p>";
+//   message += "<img src='https://img.freepik.com/vector-premium/planta-feliz-dando-pulgar-simple-fondo-blanco-ilustracion-vectorial-kawaii_969863-300469.jpg' alt='Imagen de Planta'>";
+//   message += "</div>";
   
-  message += "<footer>";
-  message += "<p>Proyecto Final Electrónica - Diciembre 2025</p>";
-  message += "<p>Sofía Ravenna y Melina Requena</p>";
-  message += "</footer>";
+//   message += "<footer>";
+//   message += "<p>Proyecto Final Electrónica - Diciembre 2025</p>";
+//   message += "<p>Sofía Ravenna y Melina Requena</p>";
+//   message += "</footer>";
 
-  // Script para actualizar los datos cada 2 segundos
-  message += "<script>";
-  message += "function actualizarDatos() {";
-  message += "fetch('/humedad').then(res => res.text()).then(data => document.getElementById('humedad').innerText = data);";
-  message += "fetch('/luz').then(res => res.text()).then(data => document.getElementById('luz').innerText = data);";
-  message += "}";
-  message += "setInterval(actualizarDatos, 2000);";
-  message += "actualizarDatos();";
-  message += "</script>";
+//   // Script para actualizar los datos cada 2 segundos
+//   message += "<script>";
+//   message += "function actualizarDatos() {";
+//   message += "fetch('/humedad').then(res => res.text()).then(data => document.getElementById('humedad').innerText = data);";
+//   message += "fetch('/luz').then(res => res.text()).then(data => document.getElementById('luz').innerText = data);";
+//   message += "}";
+//   message += "setInterval(actualizarDatos, 2000);";
+//   message += "actualizarDatos();";
+//   message += "</script>";
   
-  message += "</body></html>";
+//   message += "</body></html>";
 
-  // Enviar la respuesta con el HTML
-  server.send(200, "text/html", message);
-}
+//   // Enviar la respuesta con el HTML
+//   server.send(200, "text/html", message);
+// }
 
 
 void handleHumedad() {

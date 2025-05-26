@@ -1,86 +1,233 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maceta Inteligente</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maceta Inteligente</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #adc0ae;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: auto;
+        justify-content: center;
+        display: flex;
+        align-content: center;
+        height: 100vh;
+    }
 
-    <!-- Estilos CSS básicos -->
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            background-color: #e0f7e9; /* Fondo verde clarito */
-            color: #333; 
-            margin: 0; 
-            padding: 0; 
-        }
-        .container { 
-            text-align: center; 
-            padding: 20px; 
-            background-color: #ffffff; /* Fondo blanco para el contenido */
-            border-radius: 10px; /* Bordes redondeados para el contenedor */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil alrededor */
-            max-width: 600px; 
-            margin: 20px auto; /* Centrado de la página */
-        }
-        h1 { 
-            color: #4CAF50; 
-            margin-bottom: 20px; 
-        }
-        p { 
-            font-size: 18px; 
-            margin: 10px 0; 
-        }
-        footer { 
-            text-align: center; 
-            font-size: 12px; 
-            color: #888; 
-            margin-top: 20px; 
-        }
-        footer p { 
-            margin: 5px; 
-        }
-        img { 
-            max-width: 200px; 
-            margin-top: 20px; 
-            border-radius: 10px; /* Borde redondeado para la imagen */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra alrededor de la imagen */
-        }
-        /* Estilo adicional para mejorar la experiencia visual */
-        .highlight { 
-            color: #4CAF50; 
-            font-weight: bold;
-        }
-    </style>
+    .container {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 20px;
+      height: auto;
+    }
+
+    h1 {
+      color: #519653;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 20px;
+      margin: 2px 0;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      margin-top: 20px;
+    }
+
+    footer {
+      margin-top: 70px;
+      font-weight: 600;
+      color: #335834;
+      font-stretch: expanded;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    #footer-title {
+        font-size: 25px;
+    }
+
+    img {
+      max-width: 200px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      
+    }
+
+    .datos-curiosos-box {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+    }
+
+
+    .datos-curiosos-title{
+        font-size: 30px;
+        font-weight: 800;
+        color: #519653;
+
+    }
+
+    .datos-curiosos-plant{
+        font-weight: 600;
+        font-size: 25px;
+    }
+
+    .dato-curioso{
+        padding-left: 10px;
+        padding: 15px;
+    }
+
+    .full-container {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .datos-curiosos-container {
+        height: 150px;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .container, footer {
+        box-shadow: 0 0 20px 1px #3358347e;
+
+    }
+
+
+
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Monitor de Maceta 🌱</h1>
-        <p>Humedad: <span id="humedad">Cargando...</span>%</p>
-        <p>Luz: <span id="luz">Cargando...</span> lx</p>
-        <img src="https://img.freepik.com/vector-premium/planta-feliz-dando-pulgar-simple-fondo-blanco-ilustracion-vectorial-kawaii_969863-300469.jpg" alt="Imagen de Planta">
-    </div>
+
+    <div class="full-container">
+
+        <div class="container">
+            <h1>Monitor de Maceta 🌱</h1>
+            <p>Humedad: <span id="humedad">Cargando...</span>%</p>
+            <p>Luz: <span id="luz">Cargando...</span> lx</p>
+            <div class="img-datos">
+                <img src="https://img.freepik.com/vector-premium/planta-feliz-dando-pulgar-simple-fondo-blanco-ilustracion-vectorial-kawaii_969863-300469.jpg" alt="Imagen de Planta">
+            </div>
+        </div>
     
-    <footer>
-        <p>Proyecto Final Electrónica - Diciembre 2025</p>
-        <p>Sofía Ravenna y Melina Requena</p>
-    </footer>
+        <div class="left-container">
+            <div class="container datos-curiosos-container">
+                <div class="datos-curiosos-box">
+                    <p class="datos-curiosos-title">SABÍAS QUE...?</p>
+                    <div class="dato-curioso">
+                        <p class="datos-curiosos-plant"> PLANT </p>
+                        <p class="datos-curiosos-dato"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae saepe doloremque quaerat ipsum incidunt delectus maxime, nostrum obcaecati voluptas reiciendis corporis soluta eius cumque, autem veniam illum ab, sapiente cum. </p>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <p id="footer-title">Proyecto Final Electrónica - Febrero 2025</p>
+                <p>Sofía Ravenna y Melina Requena</p>
+            </footer>
+        </div>
+       
+
+    </div>
 
     <script>
-        function actualizarDatos() {
-            fetch('/humedad')
-                .then(res => res.text())
-                .then(data => document.getElementById('humedad').innerText = data)
-                .catch(err => document.getElementById('humedad').innerText = 'Error al obtener datos');
-            
-            fetch('/luz')
-                .then(res => res.text())
-                .then(data => document.getElementById('luz').innerText = data)
-                .catch(err => document.getElementById('luz').innerText = 'Error al obtener datos');
-        }
+    function actualizarDatos() {
+        fetch('/humedad')
+        .then(res => res.text())
+        .then(data => document.getElementById('humedad').innerText = data);
+        fetch('/luz')
+        .then(res => res.text())
+        .then(data => document.getElementById('luz').innerText = data);
+    }
+    
+    setInterval(actualizarDatos, 3000);
+    actualizarDatos();
 
-        setInterval(actualizarDatos, 2000); // Actualiza los datos cada 2 segundos
-        actualizarDatos();  // Llama inmediatamente al cargar la página
+    const datosCuriosos = [
+        { planta: "Lavanda", dato: "La lavanda ahuyenta mosquitos gracias a su aroma." },
+        { planta: "Girasol", dato: "Los girasoles siguen el movimiento del sol durante el día." },
+        { planta: "Aloe Vera", dato: "El gel de Aloe Vera ayuda a aliviar quemaduras leves." },
+        { planta: "Bambú", dato: "El bambú puede crecer hasta 91 cm en un solo día." },
+        { planta: "Rosa", dato: "Hay más de 100 especies diferentes de rosas en el mundo." },
+        { planta: "Cactus", dato: "El cactus almacena agua en su tallo para sobrevivir en el desierto." },
+        { planta: "Orquídea", dato: "Las orquídeas pueden vivir hasta 100 años en condiciones ideales." },
+        { planta: "Menta", dato: "La menta puede invadir otras plantas si no se controla." },
+        { planta: "Helecho", dato: "Los helechos no producen flores ni semillas, se reproducen por esporas." },
+        { planta: "Jazmín", dato: "El jazmín libera su fragancia con más intensidad durante la noche." },
+        { planta: "Romero", dato: "El romero mejora la memoria y concentración según estudios." },
+        { planta: "Albahaca", dato: "La albahaca odia el frío y necesita mucho sol para crecer bien." },
+        { planta: "Hiedra", dato: "La hiedra ayuda a purificar el aire en interiores." },
+        { planta: "Diente de león", dato: "Todas las partes del diente de león son comestibles." },
+        { planta: "Tomatera", dato: "La tomatera es una planta perenne en climas cálidos." },
+        { planta: "Ficus", dato: "Algunos ficus pueden llegar a vivir más de 1000 años." },
+        { planta: "Flor de Pascua", dato: "Sus hojas se vuelven rojas por un proceso llamado fotoperiodismo." },
+        { planta: "Pino", dato: "Los pinos pueden vivir más de 5000 años." },
+        { planta: "Caléndula", dato: "Sus pétalos se usan en cremas cicatrizantes naturales." },
+        { planta: "Salvia", dato: "Su nombre viene del latín 'salvare', que significa curar." },
+        { planta: "Malva", dato: "La malva es comestible y se usa en infusiones para la garganta." },
+        { planta: "Ortiga", dato: "Aunque pica, la ortiga es rica en hierro y vitaminas." },
+        { planta: "Clavel", dato: "El clavel es una flor nacional en varios países como España y Colombia." },
+        { planta: "Peonía", dato: "La peonía simboliza buena suerte y matrimonio feliz." },
+        { planta: "Crisantemo", dato: "En Japón, el crisantemo representa la longevidad." },
+        { planta: "Hortensia", dato: "El color de la hortensia cambia según el pH del suelo." },
+        { planta: "Narciso", dato: "El narciso puede crecer incluso en la nieve." },
+        { planta: "Flor de Loto", dato: "La flor de loto crece en agua sucia, pero permanece limpia." },
+        { planta: "Trébol", dato: "El trébol de cuatro hojas es una mutación rara que simboliza suerte." },
+        { planta: "Lirio", dato: "Los lirios pueden ser tóxicos para gatos y perros." },
+        { planta: "Geranio", dato: "El aceite de geranio tiene propiedades repelentes de insectos." },
+        { planta: "Espatifilo", dato: "El espatifilo limpia el aire de toxinas como el formaldehído." },
+        { planta: "Begonia", dato: "Las begonias pueden crecer en ambientes con poca luz." },
+        { planta: "Zanahoria", dato: "Las zanahorias originalmente eran moradas." },
+        { planta: "Maíz", dato: "El maíz es una de las pocas plantas completamente domesticadas por el ser humano." },
+        { planta: "Papa", dato: "Las papas fueron cultivadas por primera vez en Perú hace 7,000 años." },
+        { planta: "Cilantro", dato: "El cilantro tiene propiedades digestivas y antiinflamatorias." },
+        { planta: "Espinaca", dato: "La espinaca es rica en hierro, aunque no tanto como se creía antes." },
+        { planta: "Calabaza", dato: "Las calabazas contienen más del 90% de agua." },
+        { planta: "Apio", dato: "El apio tiene calorías negativas: se gasta más energía en digerirlo que la que aporta." },
+        { planta: "Sandía", dato: "La sandía es una de las frutas con mayor contenido de agua (92%)." },
+        { planta: "Fresa", dato: "Las fresas no son verdaderas bayas según la botánica." },
+        { planta: "Banano", dato: "Las plantas de banano no son árboles, sino hierbas gigantes." },
+        { planta: "Café", dato: "El café es la segunda bebida más consumida en el mundo después del agua." },
+        { planta: "Té", dato: "El té proviene de una sola planta: *Camellia sinensis*." },
+        { planta: "Canela", dato: "La canela se obtiene de la corteza interior de un árbol." },
+        { planta: "Vainilla", dato: "La vainilla viene de una orquídea que debe polinizarse a mano en muchos lugares." },
+        { planta: "Algodón", dato: "El algodón se ha cultivado por más de 5,000 años." }
+    ];
+
+    function obtenerDatoCuriosoAleatorio() {
+        const randomIndex = Math.floor(Math.random() * datosCuriosos.length);
+        return datosCuriosos[randomIndex];
+    }
+
+    function actualizarDatosCuriosos() {
+        const dato = obtenerDatoCuriosoAleatorio();
+        document.getElementsByClassName('datos-curiosos-plant')[0].innerText = dato.planta;
+        document.getElementsByClassName('datos-curiosos-dato')[0].innerText = dato.dato;
+    }
+
+    setInterval(actualizarDatosCuriosos, 5000);
+    actualizarDatosCuriosos(); // Llamada inicial al cargar la página
+
     </script>
 </body>
 </html>
